@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Spring Boot Thymeleaf Demo</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+
+<body>
+
+	<div class="container jumbotron">
+		<h2>Days Between Two Dates</h2>
+
+		<form action="#" th:action="@{/calcDays}" th:object="${calcPeriod}" method="post" class="mt-4">
+			<div class="form-group row">
+				<label for="startDateInput" class="col-sm-2 col-form-label">Start Date</label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control" id="startDateInput" th:field="*{startDate}" th:required="required" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="endDateInput" class="col-sm-2 col-form-label">End Date</label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control" id="endDateInput" th:field="*{endDate}" th:required="required" />
+				</div>
+			</div>
+			<p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="alert alert-danger"></p>
+			<button type="submit" class="btn btn-primary">Calculate</button>
+		</form>
+
+		<br/>
+		<p th:if="${calcResult >= 0}">
+			<span th:text="'From and including ' + ${#temporals.format(calcPeriod.startDate, 'dd-MM-yyyy')}"></span><br /> 
+			<span th:text="'To, but not including ' + ${#temporals.format(calcPeriod.endDate, 'dd-MM-yyyy')}"></span><br /> 
+			<span th:text="'There are ' + ${calcResult} + ' days'"></span>
+		</p>
+	</div>
+</body>
+</html>
